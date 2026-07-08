@@ -105,8 +105,7 @@ public class GenerateAst {
 		writer.closeScope();
 	}
 
-	static class ClassWriter {
-		private final PrintWriter writer;
+	static class ClassWriter extends PrintWriter {
 		private final boolean indentAsTabs;
 		private int depth = 0;
 
@@ -115,12 +114,12 @@ public class GenerateAst {
 		}
 
 		ClassWriter(String path, boolean indentAsTabs) throws IOException {
-			writer = new PrintWriter(path, "UTF-8");
+			super(path, "UTF-8");
 			this.indentAsTabs = indentAsTabs;
 		}
 
 		void openScope(String scopeLine) {
-			writer.println(getIndentation() + scopeLine + " {");
+			println(getIndentation() + scopeLine + " {");
 			depth++;
 		}
 
@@ -129,19 +128,17 @@ public class GenerateAst {
 			if (depth < 0) {
 				depth = 0;
 			}
-			writer.println(getIndentation() + "}");
+			println(getIndentation() + "}");
 		}
 
-		void println() {
-			writer.println(getIndentation());
+		@Override
+		public void println() {
+			super.println(getIndentation());
 		}
 
-		void println(String x) {
-			writer.println(getIndentation() + x);
-		}
-
-		void close() {
-			writer.close();
+		@Override
+		public void println(String x) {
+			super.println(getIndentation() + x);
 		}
 
 		private String getIndentation() {
