@@ -119,7 +119,7 @@ public class GenerateAst {
 		}
 
 		void openScope(String scopeLine) {
-			println(getIndentation() + scopeLine + " {");
+			println(scopeLine + " {");
 			depth++;
 		}
 
@@ -128,7 +128,7 @@ public class GenerateAst {
 			if (depth < 0) {
 				depth = 0;
 			}
-			println(getIndentation() + "}");
+			println("}");
 		}
 
 		@Override
