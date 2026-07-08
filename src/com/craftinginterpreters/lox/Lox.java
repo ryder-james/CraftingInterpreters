@@ -10,7 +10,7 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class Lox {
-	private static final Interpreter interpreter = new Interpreter();
+	private static Interpreter interpreter;
 	static boolean hadError = false;
 	static boolean hadRuntimeError = false;
 	
@@ -19,8 +19,10 @@ public class Lox {
 			System.out.print("Usage: jlox [script]");
 			System.exit(64);
 		} else if (args.length == 1) {
+			interpreter = new Interpreter();
 			runFile(args[0]);
 		} else {
+			interpreter = new REPLInterpreter();
 			runPrompt();
 		}
 	}

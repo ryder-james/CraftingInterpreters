@@ -3,7 +3,7 @@ package com.craftinginterpreters.lox;
 import java.util.List;
 
 class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
-	private Environment environment = new Environment();
+	protected Environment environment = new Environment();
 	
 	void interpret(List<Stmt> statements) {
 		try {
@@ -132,15 +132,16 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 		environment.define(stmt.name.lexeme, value);
 		return null;
 	}
-	private Object evaluate(Expr expr) {
+	
+	protected Object evaluate(Expr expr) {
 		return expr.accept(this);
 	}
 	
-	private void execute(Stmt statement) {
+	protected void execute(Stmt statement) {
 		statement.accept(this);
 	}
 	
-	private void executeBlock(List<Stmt> statements, Environment scope) {
+	protected void executeBlock(List<Stmt> statements, Environment scope) {
 		Environment previous = environment;
 		try {
 			environment = scope;
@@ -150,6 +151,20 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 		} finally {
 			environment = previous;
 		}
+	}
+	
+	protected String stringify(Object obj) {
+		if (obj == null) return "nil";
+		
+		if (obj instanceof Double) {
+			String text = obj.toString();
+			if (text.endsWith(".0")) {
+				text = text.substring(0, text.length() - 2);
+			}
+			return text;
+		}
+		
+		return obj.toString();
 	}
 	
 	private boolean isEqual(Object a, Object b) {
@@ -172,19 +187,5 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 	private void checkNumberOperands(Token operator, Object left, Object right) {
 		if (left instanceof Double && right instanceof Double) return;
 		throw new RuntimeError(operator, "Operands must be numbers.");
-	}
-	
-	private String stringify(Object obj) {
-		if (obj == null) return "nil";
-		
-		if (obj instanceof Double) {
-			String text = obj.toString();
-			if (text.endsWith(".0")) {
-				text = text.substring(0, text.length() - 2);
-			}
-			return text;
-		}
-		
-		return obj.toString();
 	}
 }
