@@ -1,23 +1,23 @@
 package com.craftinginterpreters.lox;
 
-import com.craftinginterpreters.lox.Expr.Binary;
-import com.craftinginterpreters.lox.Expr.Grouping;
-import com.craftinginterpreters.lox.Expr.Literal;
-import com.craftinginterpreters.lox.Expr.Unary;
-import com.craftinginterpreters.lox.Expr.Visitor;
+import java.util.List;
 
-class Interpreter implements Visitor<Object> {
-	void interpret(Expr expression) {
+import com.craftinginterpreters.lox.Stmt.Expression;
+import com.craftinginterpreters.lox.Stmt.Print;
+
+class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
+	void interpret(List<Stmt> statements) {
 		try {
-			Object value = evaluate(expression);
-			System.out.println(stringify(value));
+			for (Stmt stmt : statements) {
+				execute(stmt);
+			}
 		} catch (RuntimeError er) {
 			Lox.runtimeError(er);
 		}
 	}
 	
 	@Override
-	public Object visitBinaryExpr(Binary expr) {
+	public Object visitBinaryExpr(Expr.Binary expr) {
 		Object left = evaluate(expr.left);
 		Object right = evaluate(expr.right);
 		
@@ -66,17 +66,17 @@ class Interpreter implements Visitor<Object> {
 	}
 
 	@Override
-	public Object visitGroupingExpr(Grouping expr) {
+	public Object visitGroupingExpr(Expr.Grouping expr) {
 		return evaluate(expr.expression);
 	}
 
 	@Override
-	public Object visitLiteralExpr(Literal expr) {
+	public Object visitLiteralExpr(Expr.Literal expr) {
 		return expr.value;
 	}
 
 	@Override
-	public Object visitUnaryExpr(Unary expr) {
+	public Object visitUnaryExpr(Expr.Unary expr) {
 		Object right = evaluate(expr.right);
 		
 		switch (expr.operator.type) {
@@ -91,8 +91,25 @@ class Interpreter implements Visitor<Object> {
 		}
 	}
 
+	@Override
+	public Void visitExpressionStmt(Expression stmt) {
+		evaluate(stmt.expression);
+		return null;
+	}
+
+	@Override
+	public Void visitPrintStmt(Print stmt) {
+		Object value = evaluate(stmt.expression);
+		System.out.println(stringify(value));
+		return null;
+	}
+
 	private Object evaluate(Expr expr) {
 		return expr.accept(this);
+	}
+	
+	private void execute(Stmt stmt) {
+		stmt.accept(this);
 	}
 	
 	private boolean isEqual(Object a, Object b) {
