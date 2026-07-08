@@ -2,11 +2,6 @@ package com.craftinginterpreters.lox;
 
 import java.util.List;
 
-import com.craftinginterpreters.lox.Expr.Variable;
-import com.craftinginterpreters.lox.Stmt.Expression;
-import com.craftinginterpreters.lox.Stmt.Print;
-import com.craftinginterpreters.lox.Stmt.Var;
-
 class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 	private Environment environment = new Environment();
 	
@@ -103,26 +98,32 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 	}
 
 	@Override
-	public Object visitVariableExpr(Variable expr) {
+	public Object visitVariableExpr(Expr.Variable expr) {
 		return environment.get(expr.name);
 	}
 
 
 	@Override
-	public Void visitExpressionStmt(Expression stmt) {
+	public Void visitExpressionStmt(Stmt.Expression stmt) {
 		evaluate(stmt.expression);
+		return null;
+	}
+	
+	@Override 
+	public Void visitBlockStmt(Stmt.Block stmt) {
+		executeBlock(stmt.statements, new Environment(environment));
 		return null;
 	}
 
 	@Override
-	public Void visitPrintStmt(Print stmt) {
+	public Void visitPrintStmt(Stmt.Print stmt) {
 		Object value = evaluate(stmt.expression);
 		System.out.println(stringify(value));
 		return null;
 	}
 
 	@Override
-	public Void visitVarStmt(Var stmt) {
+	public Void visitVarStmt(Stmt.Var stmt) {
 		Object value = null;
 		if (stmt.initializer != null) {
 			value = evaluate(stmt.initializer);
@@ -135,8 +136,20 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 		return expr.accept(this);
 	}
 	
-	private void execute(Stmt stmt) {
-		stmt.accept(this);
+	private void execute(Stmt statement) {
+		statement.accept(this);
+	}
+	
+	private void executeBlock(List<Stmt> statements, Environment scope) {
+		Environment previous = environment;
+		try {
+			environment = scope;
+			for (Stmt statement : statements) {
+				execute(statement);
+			}
+		} finally {
+			environment = previous;
+		}
 	}
 	
 	private boolean isEqual(Object a, Object b) {

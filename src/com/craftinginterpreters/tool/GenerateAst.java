@@ -22,6 +22,7 @@ public class GenerateAst {
 		));
 		
 		defineAst(outputDir, "Stmt", Arrays.asList(
+			"Block		: List<Stmt> statements",
 			"Expression : Expr expression",
 			"Print		: Expr expression",
 			"Var		: Token name, Expr initializer"
@@ -36,9 +37,9 @@ public class GenerateAst {
 		ClassWriter writer = new ClassWriter(path);
 
 		writer.println("package com.craftinginterpreters.lox;");
-//		writer.println();
-//		writer.println("import java.util.List;");
-//		writer.println();
+		writer.println();
+		writer.println("import java.util.List;");
+		writer.println();
 		writer.openScope("abstract class " + baseName);
 
 		defineVisitor(writer, baseName, types);
