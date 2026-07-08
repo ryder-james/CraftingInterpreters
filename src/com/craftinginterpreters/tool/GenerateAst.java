@@ -133,7 +133,8 @@ public class GenerateAst {
 
 		@Override
 		public void println() {
-			super.println(getIndentation());
+			super.print(getIndentation());
+			super.println();
 		}
 
 		@Override
