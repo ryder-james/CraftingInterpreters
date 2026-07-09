@@ -1,0 +1,17 @@
+{
+	// Use IntelliSense to learn about possible attributes.
+	// Hover to view descriptions of existing attributes.
+	// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"type": "java",
+			"name": "GenerateAst",
+			"request": "launch",
+			"mainClass": "CraftingInterpreters/com.craftinginterpreters.tool.GenerateAst",
+			"projectName": "jlox_77c3fd51",
+			"args": ".\\src\\com\\craftinginterpreters\\lox",
+			"preLaunchTask": "java (build): Build Workspace"
+		}
+	]
+}
