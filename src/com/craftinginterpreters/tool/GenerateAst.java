@@ -151,7 +151,8 @@ public class GenerateAst {
 
 		@Override
 		public void println(String x) {
-			super.println(getIndentation() + x);
+			super.print(getIndentation() + x);
+			super.println();
 		}
 
 		private String getIndentation() {
