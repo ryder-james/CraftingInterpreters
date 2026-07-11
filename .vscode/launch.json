@@ -6,6 +6,14 @@
 	"configurations": [
 		{
 			"type": "java",
+			"name": "Lox",
+			"request": "launch",
+			"mainClass": "CraftingInterpreters/com.craftinginterpreters.lox.Lox",
+			"projectName": "jlox_77c3fd51",
+			"args": ".\\loxsrc\\ResolutionErrorTest.lox"
+		},
+		{
+			"type": "java",
 			"name": "GenerateAst",
 			"request": "launch",
 			"mainClass": "CraftingInterpreters/com.craftinginterpreters.tool.GenerateAst",
