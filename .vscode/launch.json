@@ -6,7 +6,15 @@
 	"configurations": [
 		{
 			"type": "java",
-			"name": "Lox",
+			"name": "Interactive",
+			"request": "launch",
+			"mainClass": "CraftingInterpreters/com.craftinginterpreters.lox.Lox",
+			"projectName": "jlox_77c3fd51",
+			"args": "-i"
+		},
+		{
+			"type": "java",
+			"name": "REPL",
 			"request": "launch",
 			"mainClass": "CraftingInterpreters/com.craftinginterpreters.lox.Lox",
 			"projectName": "jlox_77c3fd51"

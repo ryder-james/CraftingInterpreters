@@ -15,14 +15,17 @@ public class Lox {
 	static boolean hadRuntimeError = false;
 	
 	public static void main(String[] args) throws IOException {
-		if (args.length > 1) {
-			System.out.print("Usage: jlox [script]");
-			System.exit(64);
-		} else if (args.length == 1) {
+		if (args.length == 1 && args[0].equals("-i")) {
+			runInteractive();
+		} else if (args.length == 2 && args[0].equals("-f")) {
 			interpreter = new Interpreter();
-			runFile(args[0]);
+			runFile(args[1]);
+		} else if (args.length == 0) {
+			runPrompt();
 		} else {
-			activeRun();
+			System.out.println(args.length + " " + args[0]);
+			System.out.print("Usage: jlox [-i] [-f script_file]");
+			System.exit(64);
 		}
 	}
 
@@ -35,7 +38,7 @@ public class Lox {
 		if (hadRuntimeError) System.exit(70);
 	}
 
-	private static void activeRun() throws IOException {
+	private static void runInteractive() throws IOException {
 		InputStreamReader input = new InputStreamReader(System.in);
 		BufferedReader reader = new BufferedReader(input);
 		String line = "";
