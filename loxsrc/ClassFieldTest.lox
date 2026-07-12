@@ -1,0 +1,18 @@
+class Bagel {}
+class CreamCheese {}
+
+var bagel = Bagel();
+bagel.isSalty = true;
+bagel.sesameSeedCount = 2000;
+bagel.cream = CreamCheese();
+bagel.cream.flavor = "Strawberry";
+bagel.cream.parentBagel = bagel;
+
+
+print bagel;
+print bagel.isSalty;
+print bagel.cream.flavor;
+print bagel.cream.parentBagel.cream.parentBagel.sesameSeedCount;
+
+bagel.cream.parentBagel.isSalty = false;
+print bagel.isSalty;
