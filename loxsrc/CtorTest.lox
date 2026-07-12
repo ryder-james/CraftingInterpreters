@@ -1,0 +1,15 @@
+class Car {
+	init(make, model, year) {
+		this.make = make;
+		this.model = model;
+		this.year = year;
+	}
+
+	toString() {
+		return this.year + " " + this.make + " " + this.model;
+	}
+}
+
+
+var a = Car("Buick", "Encore GX", 2022);
+print a.toString();
