@@ -158,6 +158,14 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 	}
 
 	@Override
+	public Void visitClassStmt(Stmt.Class stmt) {
+		environment.define(stmt.name.lexeme, null);
+		LoxClass clazz = new LoxClass(stmt.name.lexeme);
+		environment.assign(stmt.name, clazz);
+		return null;
+	}
+
+	@Override
 	public Object visitVariableExpr(Expr.Variable expr) {
 		return lookUpVariable(expr.name, expr);
 	}

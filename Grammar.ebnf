@@ -1,6 +1,7 @@
 program 	-> declaration* EOF ;
 
-declaration	-> funDecl 
+declaration	-> classDecl
+			| funDecl 
 			| varDecl
 			| statement ;
 
@@ -20,6 +21,7 @@ returnStmt	-> "return" expression? ";" ;
 whileStmt	-> "while" "(" expression ")" statement ;
 block		-> "{" declaration* "}" ;
 
+classDecl	-> "class" IDENTIFIER "{" function* "}" ;
 funDecl		-> "fun" function ;
 varDecl		-> "var" IDENTIFIER ("=" expression)? ";" ;
 function	-> IDENTIFIER "(" parameters? ")" block ;

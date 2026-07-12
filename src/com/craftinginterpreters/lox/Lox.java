@@ -22,8 +22,7 @@ public class Lox {
 			interpreter = new Interpreter();
 			runFile(args[0]);
 		} else {
-			interpreter = new REPLInterpreter();
-			runPrompt();
+			activeRun();
 		}
 	}
 
@@ -34,6 +33,29 @@ public class Lox {
 		// Indicate an error in the exit code.
 		if (hadError) System.exit(65);
 		if (hadRuntimeError) System.exit(70);
+	}
+
+	private static void activeRun() throws IOException {
+		InputStreamReader input = new InputStreamReader(System.in);
+		BufferedReader reader = new BufferedReader(input);
+		String line = "";
+		while (!line.equals("quit")) {
+			System.out.print("Choose 'file', 'repl' or 'quit': ");
+			line = reader.readLine().toLowerCase();
+			if (line.equals("file")) {
+				System.out.print("Enter file name: ");
+				line = reader.readLine();
+				interpreter = new Interpreter();
+				runFile(".\\loxsrc\\" + line + ".lox");
+				break;
+			} else if (line.equals("repl")) {
+				interpreter = new REPLInterpreter();
+				runPrompt();
+				break;
+			} else if (!line.equals("quit")) {
+				System.out.println("Try again.");
+			}
+		}
 	}
 
 	private static void runPrompt() throws IOException {
