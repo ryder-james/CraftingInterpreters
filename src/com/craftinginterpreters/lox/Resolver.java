@@ -110,6 +110,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 		if (stmt.initializer != null) {
 			resolve(stmt.initializer);
 		}
+		define(stmt.name);
 		return null;		
 	}
 
