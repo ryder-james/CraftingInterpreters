@@ -1,0 +1,21 @@
+class Doughnut {
+  cook() {
+    print "Fry until golden brown.";
+  }
+}
+
+class Bismarck < Doughnut {
+  cook() {
+    super.cook();
+    print "Hollow out.";
+  }
+}
+
+class RaspberryFilled < Bismarck {
+  cook() {
+    super.cook();
+    print "Fill with raspberry jam.";
+  }
+}
+
+RaspberryFilled().cook();
