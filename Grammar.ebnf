@@ -21,7 +21,7 @@ returnStmt	-> "return" expression? ";" ;
 whileStmt	-> "while" "(" expression ")" statement ;
 block		-> "{" declaration* "}" ;
 
-classDecl	-> "class" IDENTIFIER "{" function* "}" ;
+classDecl	-> "class" IDENTIFIER  ("<" IDENTIFIER)? "{" function* "}" ;
 funDecl		-> "fun" function ;
 varDecl		-> "var" IDENTIFIER ("=" expression)? ";" ;
 function	-> IDENTIFIER "(" parameters? ")" block ;
